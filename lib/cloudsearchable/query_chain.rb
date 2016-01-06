@@ -7,7 +7,7 @@ module Cloudsearchable
   #
   class QueryChain
     include Enumerable
-    
+
     attr_reader :domain, :fields
 
     # options:
@@ -23,15 +23,15 @@ module Cloudsearchable
       @fields         = Set.new
       @results        = nil
     end
-    
+
     #
-    # This method can be called in several different forms. 
+    # This method can be called in several different forms.
     #
     # To do an equality search on several fields, you can pass a single hash, e.g.:
     #
     #   Collection.search.where(customer_id: "12345", another_field: "Some value")
     #
-    # To do a search on a single field, you can pass three parameters in the 
+    # To do a search on a single field, you can pass three parameters in the
     # form: where(field, op, value)
     #
     #   Collection.search.where(:customer_id, :==, 12345)
@@ -51,7 +51,7 @@ module Cloudsearchable
       raise if materialized?
 
       if field_or_hash.is_a? Hash
-        field_or_hash.each_pair do |k, v| 
+        field_or_hash.each_pair do |k, v|
           where(k, :==, v)
         end
       elsif field_or_hash.is_a? Symbol
@@ -120,7 +120,7 @@ module Cloudsearchable
 
     #
     # Adds a one or more fields to the returned result set, e.g.:
-    #   
+    #
     #   my_query.returning(:collection_id)
     #   my_query.returning(:collection_id, :created_at)
     #
@@ -136,15 +136,15 @@ module Cloudsearchable
       end
       self
     end
-    
+
     #
-    # True if the query has been materialized (e.g. the search has been 
-    # executed). 
+    # True if the query has been materialized (e.g. the search has been
+    # executed).
     #
     def materialized?
       !@results.nil?
     end
-    
+
     #
     # Executes the query, getting a result set, returns true if work was done,
     # false if the query was already materialized.
@@ -152,7 +152,7 @@ module Cloudsearchable
     #
     def materialize!
       return false if materialized?
-      
+
       @results = domain.execute_query(to_q)
 
       if @results && @results["info"] && messages = @results["info"]["messages"]
@@ -175,7 +175,7 @@ module Cloudsearchable
         raise "improperly formed response. hits parameter not available. messages: #{@results["messages"]}"
       end
     end
-    
+
     def each(&block)
       materialize!
      if @results['hits']
@@ -184,13 +184,13 @@ module Cloudsearchable
        raise "improperly formed response. hits parameter not available. messages: #{@results["messages"]}"
      end
     end
-    
+
     #
     # Turns this Query object into a query string hash that goes on the CloudSearch URL
     #
     def to_q
       raise NoClausesError, "no search terms were specified" if (@clauses.nil? || @clauses.empty?) && (@q.nil? || @q.empty?)
-      
+
       bq = (@clauses.count > 1) ? "(and #{@clauses.join(' ')})" : @clauses.first
       {
         q: @q,
@@ -208,7 +208,7 @@ module Cloudsearchable
       # Operations for which 'value' is not a scalar
       if op == :any
         '(or ' + value.map { |v| "#{field}:#{query_clause_value(type, v)}" }.join(' ') + ')'
-      elsif op == :within_range && type == :uint
+      elsif op == :within_range && type == :int
         "#{field}:#{value.to_s}"
       else
         value = query_clause_value(type, value)
@@ -222,7 +222,7 @@ module Cloudsearchable
           else
             # Operation-specific, type-specific operations on scalars
             case type
-              when :uint
+              when :int
                 case op
                   when :>
                     "#{field}:#{value+1}.."
@@ -243,7 +243,7 @@ module Cloudsearchable
     end
 
     def query_clause_value(type, value)
-      if type == :uint
+      if type == :int
         Integer(value)
       elsif !value.nil?
         "'#{value.to_s}'"
