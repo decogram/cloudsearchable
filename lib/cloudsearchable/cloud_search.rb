@@ -2,7 +2,7 @@ require 'aws-sdk'
 require 'json'
 
 module CloudSearch
-  API_VERSION = "2011-02-01"
+  API_VERSION = "2013-01-01"
 
   def self.client
     @client ||= Aws::CloudSearch::Client.new

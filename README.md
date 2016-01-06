@@ -12,8 +12,8 @@ Add to your Gemfile: gem 'cloudsearchable'. Run bundle or: gem install cloudsear
 class Customer
   include Cloudsearchable
 
-  attr_accessor :id, :customer, :name, :lock_version
-  
+  #lock_version attribute must be present on your model
+
   # This is the default index. You probably only need one.
   index_in_cloudsearch do |idx|
     # Fetch the customer_id field from customer
@@ -97,7 +97,7 @@ Requests to AWS cloudsearch are instrumented using [ActiveSupport Notifications]
 #### Instrumented events:
 
 1. cloudsearchable.execute_query - Instruments search requests
-2. cloudsearchable.post_record - Instruments record addition 
+2. cloudsearchable.post_record - Instruments record addition
 3. cloudsearchable.delete_record - Instruments record deletion
 4. cloudsearchable.describe_domains - Instruments request for getting domains information
 
