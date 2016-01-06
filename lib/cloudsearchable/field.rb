@@ -15,7 +15,7 @@ module Cloudsearchable
       :literal => :literal_options,
       :int => :int_options,
       :text => :text_options,
-      :latlon => :lat_lon_options
+      :latlon => :lat_lon_options,
       :double => :double_options}.freeze
     # Maps from field type to the allowed set of options for the field
     FieldTypeOptionsKeys = {

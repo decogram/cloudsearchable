@@ -76,9 +76,11 @@ module Cloudsearchable
     def literal name, options = {}, &block
       field name, :literal, options, &block
     end
+
     def latlon name, options = {}, &block
       field name, :latlon, options, &block
     end
+    
     def double name, options = {}, &block
       field name, :double, options, &block
     end
