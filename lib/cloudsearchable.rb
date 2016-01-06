@@ -65,8 +65,8 @@ module Cloudsearchable
       @base = base
     end
 
-    def uint name, options = {}, &block
-      field name, :uint, options, &block
+    def int name, options = {}, &block
+      field name, :int, options, &block
     end
 
     def text name, options = {}, &block
@@ -75,6 +75,9 @@ module Cloudsearchable
 
     def literal name, options = {}, &block
       field name, :literal, options, &block
+    end
+    def literal name, options = {}, &block
+      field name, :latlon, options, &block
     end
 
     def field name, type, options = {}, &block
