@@ -9,14 +9,19 @@ module Cloudsearchable
   # Represents a single field in a CloudSearch index.
   #
   class Field
-    FieldTypes = [:literal, :uint, :text].freeze
+    FieldTypes = [:literal, :int, :text, :latlon].freeze
     # Maps the type of field to the name of the options hash when defining the field
-    FieldTypeOptionsNames = {:literal => :literal_options, :uint => :u_int_options, :text => :text_options}.freeze
+    FieldTypeOptionsNames = {
+      :literal => :literal_options,
+      :int => :int_options,
+      :text => :text_options
+      :latlon => :lat_lon_options}.freeze
     # Maps from field type to the allowed set of options for the field
     FieldTypeOptionsKeys = {
-      literal: [:default_value, :facet_enabled, :search_enabled, :result_enabled].freeze,
-      uint:    [:default_value].freeze,
-      text:    [:default_value, :facet_enabled, :result_enabled].freeze
+      literal: [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
+      int:    [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
+      text:    [:default_value, :facet_enabled, :result_enabled].freeze,
+      latlon:  [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze
     }.freeze
     attr_reader :name, :type, :source, :options
 
@@ -46,7 +51,7 @@ module Cloudsearchable
     def definition
       # http://docs.amazonwebservices.com/cloudsearch/latest/developerguide/API_IndexField.html
       {
-        :index_field_name => name.to_s, 
+        :index_field_name => name.to_s,
         :index_field_type => type.to_s,
         FieldTypeOptionsNames[type] => options
       }
