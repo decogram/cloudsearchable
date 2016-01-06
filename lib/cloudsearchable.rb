@@ -45,13 +45,13 @@ module Cloudsearchable
 
   def add_to_indexes
     cloudsearch_domains.map do |name, domain|
-      domain.post_record(self, id, lock_version)
+      domain.post_record(self, id)
     end
   end
 
   def remove_from_indexes
     cloudsearch_domains.map do |name, domain|
-      domain.delete_record(id, lock_version)
+      domain.delete_record(id)
     end
   end
 
@@ -80,7 +80,7 @@ module Cloudsearchable
     def latlon name, options = {}, &block
       field name, :latlon, options, &block
     end
-    
+
     def double name, options = {}, &block
       field name, :double, options, &block
     end

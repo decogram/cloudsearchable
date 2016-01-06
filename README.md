@@ -12,7 +12,6 @@ Add to your Gemfile: gem 'cloudsearchable'. Run bundle or: gem install cloudsear
 class Customer
   include Cloudsearchable
 
-  #lock_version attribute must be present on your model
 
   # This is the default index. You probably only need one.
   index_in_cloudsearch do |idx|
