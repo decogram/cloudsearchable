@@ -195,7 +195,7 @@ module Cloudsearchable
 
 
       {
-        q: @q
+        q: @q,
         bq: bq,
         rank: @rank,
         size: @limit,
