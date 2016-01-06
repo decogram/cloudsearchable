@@ -192,13 +192,15 @@ module Cloudsearchable
       raise NoClausesError, "no search terms were specified" if (@clauses.nil? || @clauses.empty?) && (@q.nil? || @q.empty?)
 
       bq = (@clauses.count > 1) ? "(and #{@clauses.join(' ')})" : @clauses.first
+
+
       {
-        q: @q,
-        bq: bq,
-        rank: @rank,
-        size: @limit,
-        start: @offset,
-        :'return-fields' => @fields.reduce("") { |s,f| s << f.to_s }
+        q: @q
+        # bq: bq,
+        # rank: @rank,
+        # size: @limit,
+        # start: @offset,
+        # :'return-fields' => @fields.reduce("") { |s,f| s << f.to_s }
       }
     end
 
