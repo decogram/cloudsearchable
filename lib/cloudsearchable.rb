@@ -79,6 +79,9 @@ module Cloudsearchable
     def latlon name, options = {}, &block
       field name, :latlon, options, &block
     end
+    def double name, options = {}, &block
+      field name, :double, options, &block
+    end
 
     def field name, type, options = {}, &block
       # This block is executed in the context of the record
