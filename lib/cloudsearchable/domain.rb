@@ -33,9 +33,9 @@ module Cloudsearchable
     def create
       Cloudsearchable.logger.info "Creating domain #{name}"
       CloudSearch.client.create_domain(:domain_name => name)
-    
+
       #Create the fields for the index
-      fields.values.each do |field| 
+      fields.values.each do |field|
         Cloudsearchable.logger.info "  ...creating #{field.type} field #{name}"
         field.define_in_domain self.name
       end
@@ -45,12 +45,12 @@ module Cloudsearchable
     def reindex
       CloudSearch.client.index_documents(:domain_name => name)
     end
-    
+
     #
-    # This queries the status of the domain from Cloudsearch and determines if 
+    # This queries the status of the domain from Cloudsearch and determines if
     # the domain needs to be reindexed. If so, it will initiate the reindex and
     # wait timeout seconds for it to complete. Default is 0. Reindexings tend
-    # to take 15-30 minutes. 
+    # to take 15-30 minutes.
     #
     # @return true if the changes are applied, false if the domain is still reindexing
     #
@@ -59,30 +59,30 @@ module Cloudsearchable
       if(d[:requires_index_documents])
         reindex
       end
-      
+
       #We'll potentially sleep until the reindex has completed
       end_time = Time.now + timeout
       sleep_time = 1
       loop do
         d = cloudsearch_domain(true)[:domain_status_list][0]
         break unless (d[:processing] && Time.now < end_time)
-        
-        sleep(sleep_time)          
+
+        sleep(sleep_time)
         sleep_time = [2 * sleep_time, end_time - Time.now].min #exponential backoff
       end
-      
+
       !d[:processing] #processing is true as long as it is reindexing
     end
 
     # Add or replace the CloudSearch document for a particular version of a record
-    def post_record record, record_id, version
+    def post_record record, record_id
       ActiveSupport::Notifications.instrument('cloudsearchable.post_record') do
         CloudSearch.post_sdf doc_endpoint, addition_sdf(record, record_id, version)
       end
     end
 
     # Delete the CloudSearch document for a particular record (version must be greater than the last version pushed)
-    def delete_record record_id, version
+    def delete_record record_id
       ActiveSupport::Notifications.instrument('cloudsearchable.delete_record') do
         CloudSearch.post_sdf doc_endpoint, deletion_sdf(record_id, version)
       end
