@@ -77,14 +77,14 @@ module Cloudsearchable
     # Add or replace the CloudSearch document for a particular version of a record
     def post_record record, record_id
       ActiveSupport::Notifications.instrument('cloudsearchable.post_record') do
-        CloudSearch.post_sdf doc_endpoint, addition_sdf(record, record_id, version)
+        CloudSearch.post_sdf doc_endpoint, addition_sdf(record, record_id)
       end
     end
 
     # Delete the CloudSearch document for a particular record (version must be greater than the last version pushed)
     def delete_record record_id
       ActiveSupport::Notifications.instrument('cloudsearchable.delete_record') do
-        CloudSearch.post_sdf doc_endpoint, deletion_sdf(record_id, version)
+        CloudSearch.post_sdf doc_endpoint, deletion_sdf(record_id)
       end
     end
 
@@ -98,19 +98,18 @@ module Cloudsearchable
       JSON.parse(res)
     end
 
-    def deletion_sdf record_id, version
+    def deletion_sdf record_id
       {
         :type    => "delete",
         :id      => document_id(record_id),
-        :version => version
+
       }
     end
 
-    def addition_sdf record, record_id, version
+    def addition_sdf record, record_id
       {
         :type    => "add",
         :id      => document_id(record_id),
-        :version => version,
         :lang    => "en", # FIXME - key off of marketplace
         :fields  => sdf_fields(record)
       }
