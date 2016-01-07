@@ -196,11 +196,7 @@ module Cloudsearchable
 
       {
         q: @q,
-        bq: bq,
-        rank: @rank,
-        size: @limit,
-        start: @offset,
-        :'return-fields' => @fields.reduce("") { |s,f| s << f.to_s }
+        return: @fields.reduce("") { |s,f| s << f.to_s }
       }
     end
 
