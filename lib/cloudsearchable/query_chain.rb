@@ -50,6 +50,7 @@ module Cloudsearchable
     #
     def where(field_or_hash, op = nil, value = nil)
       raise if materialized?
+      @parser = "structured"
 
       if field_or_hash.is_a? Hash
         field_or_hash.each_pair do |k, v|
@@ -193,7 +194,9 @@ module Cloudsearchable
       raise NoClausesError, "no search terms were specified" if (@clauses.nil? || @clauses.empty?) && (@q.nil? || @q.empty?)
 
       bq = (@clauses.count > 1) ? "(and #{@clauses.join(' ')})" : @clauses.first
-
+      if @clauses.count == 0
+        @q = bq
+      end
 
       {
         q: @q,
