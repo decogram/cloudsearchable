@@ -212,16 +212,16 @@ module Cloudsearchable
       if op == :any
         '(or ' + value.map { |v| "#{field}:#{query_clause_value(type, v)}" }.join(' ') + ')'
       elsif op == :within_range && type == :int
-        "#{field}:#{value.to_s}"
+        "#{field}=#{value.to_s}"
       else
         value = query_clause_value(type, value)
 
         # Some operations are applicable to all types.
         case op
           when :==, :eq
-            "#{field}:#{value}"
+            "field='#{field}' #{value}"
           when :!=
-            "(not #{field}:#{value})"
+            "(not #{field}=#{value})"
           else
             # Operation-specific, type-specific operations on scalars
             case type
