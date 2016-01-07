@@ -22,6 +22,7 @@ module Cloudsearchable
       @offset         = nil
       @fields         = Set.new
       @results        = nil
+      @parser         = "simple"
     end
 
     #
@@ -196,7 +197,8 @@ module Cloudsearchable
 
       {
         q: @q,
-        return: @fields.reduce("") { |s,f| s << f.to_s }
+        return: @fields.reduce("") { |s,f| s << f.to_s },
+        "q.parser" => @parser
       }
     end
 
