@@ -202,7 +202,7 @@ module Cloudsearchable
       if fq
         base_query[:fq] = fq
       end
-      base_query = facet_clause(base_query)
+      base_query = add_facet_clause(base_query)
 
     end
 
@@ -245,10 +245,10 @@ module Cloudsearchable
         end
       end
     end
-    def facet_clause(base_query)
+    def add_facet_clause(base_query)
 
-      domain.fields.each do |field|
-        base_query["facet.#{field.name}"] = {}
+      @fields.each do |field|
+        base_query["facet.#{field}"] = {}
       end
       base_query
     end
