@@ -260,7 +260,9 @@ module Cloudsearchable
     def add_facet_clause(base_query)
 
       domain.fields.each do |key, value|
-        base_query["facet.#{key.to_s}"] = {}
+        if value.options[:facet_enabled] == true
+          base_query["facet.#{key}"] = {}
+        end
       end
       base_query
     end

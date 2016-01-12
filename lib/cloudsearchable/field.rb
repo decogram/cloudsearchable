@@ -21,7 +21,7 @@ module Cloudsearchable
     FieldTypeOptionsKeys = {
       literal: [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
       int:     [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
-      text:    [:default_value, :facet_enabled, :result_enabled].freeze,
+      text:    [:default_value, :result_enabled].freeze,
       latlon:  [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
       double:  [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze
     }.freeze
