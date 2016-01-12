@@ -177,6 +177,7 @@ module Cloudsearchable
       end
     end
     def facet_values_for(index)
+      materialize!
       if @results['facets']
         if @results['facets'][index]
           @results['facets'][index]['buckets']
