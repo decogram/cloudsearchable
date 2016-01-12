@@ -208,6 +208,7 @@ module Cloudsearchable
       base_query =
       {
         q: @q,
+        return: @fields.reduce("") { |s,f| s << f.to_s },
         "q.parser" => @parser
       }
       if fq
@@ -258,7 +259,7 @@ module Cloudsearchable
     end
     def add_facet_clause(base_query)
 
-      @fields.each do |field|
+      domain.fields.each do |field|
         base_query["facet.#{field}"] = {}
       end
       base_query
