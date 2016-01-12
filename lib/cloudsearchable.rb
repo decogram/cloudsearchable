@@ -210,6 +210,9 @@ module Cloudsearchable
     def found_count
       query.found_count
     end
+    def facet_values_for(index)
+      query.found_count(index)
+    end
 
   end
 end
