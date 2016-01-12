@@ -201,7 +201,9 @@ module Cloudsearchable
       }
       if fq
         base_query[:fq] = fq
+      end
         base_query
+
     end
 
     private
