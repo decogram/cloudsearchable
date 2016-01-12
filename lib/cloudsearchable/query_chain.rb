@@ -208,7 +208,6 @@ module Cloudsearchable
       base_query =
       {
         q: @q,
-        return: @fields.reduce("") { |s,f| s << f.to_s },
         "q.parser" => @parser
       }
       if fq
