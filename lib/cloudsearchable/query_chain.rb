@@ -259,8 +259,8 @@ module Cloudsearchable
     end
     def add_facet_clause(base_query)
 
-      domain.fields.each do |field|
-        base_query["facet.#{field}"] = {}
+      domain.fields.each do |key, value|
+        base_query["facet.#{key.to_s}"] = {}
       end
       base_query
     end
