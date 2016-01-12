@@ -247,7 +247,7 @@ module Cloudsearchable
     end
     def facet_clause(base_query)
 
-      @fields.each do |field|
+      domain.fields.each do |field|
         base_query["facet.#{field.name}"] = {}
       end
       base_query
