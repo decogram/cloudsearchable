@@ -202,7 +202,7 @@ module Cloudsearchable
       if fq
         base_query[:fq] = fq
       end
-        base_query
+      base_query = facet_clause(base_query)
 
     end
 
@@ -245,6 +245,12 @@ module Cloudsearchable
         end
       end
     end
+    def facet_clause(base_query)
+
+      @fields.each do |field|
+        base_query["facet.#{field.name}"] = {}
+      end
+      base_query
 
     def query_clause_value(type, value)
       if type == :int
