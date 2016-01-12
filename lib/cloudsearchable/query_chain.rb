@@ -186,6 +186,7 @@ module Cloudsearchable
       else
         raise "improperly formed response. Facets parameter not available. messages: #{@results["messages"]}"
       end
+    end
 
     def each(&block)
       materialize!
