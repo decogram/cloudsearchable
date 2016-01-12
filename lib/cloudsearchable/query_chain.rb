@@ -251,6 +251,7 @@ module Cloudsearchable
         base_query["facet.#{field.name}"] = {}
       end
       base_query
+    end
 
     def query_clause_value(type, value)
       if type == :int
