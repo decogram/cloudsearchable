@@ -50,7 +50,6 @@ module Cloudsearchable
     #
     def where(field_or_hash, op = nil, value = nil)
       raise if materialized?
-      @parser = "structured"
 
       if field_or_hash.is_a? Hash
         field_or_hash.each_pair do |k, v|
