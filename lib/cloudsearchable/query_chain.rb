@@ -176,6 +176,16 @@ module Cloudsearchable
         raise "improperly formed response. hits parameter not available. messages: #{@results["messages"]}"
       end
     end
+    def facet_values_for(index)
+      if @results['facets']
+        if @results['facets'][index]
+          @results['facets'][index]['buckets']
+        else
+          raise "Facet for #{index} unavailable."
+        end
+      else
+        raise "improperly formed response. Facets parameter not available. messages: #{@results["messages"]}"
+      end
 
     def each(&block)
       materialize!
