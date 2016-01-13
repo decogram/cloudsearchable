@@ -22,7 +22,7 @@ module Cloudsearchable
       @offset         = nil
       @fields         = Set.new
       @results        = nil
-      @parser         = "simple"
+      @parser         = "structured"
     end
 
     #
@@ -214,6 +214,9 @@ module Cloudsearchable
       }
       if fq
         base_query[:fq] = fq
+      end
+      if @q.empty?
+        base_query[:q] = "matchall"
       end
       base_query = add_facet_clause(base_query)
 
