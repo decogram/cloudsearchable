@@ -209,6 +209,7 @@ module Cloudsearchable
       {
         q: @q,
         return: @fields.reduce("") { |s,f| s << f.to_s },
+        size: 10000,
         "q.parser" => @parser
       }
       if fq
