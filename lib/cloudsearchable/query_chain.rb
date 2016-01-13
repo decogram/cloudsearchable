@@ -233,7 +233,7 @@ module Cloudsearchable
         # Some operations are applicable to all types.
         case op
           when :==, :eq
-            "field='#{field}' #{value}"
+            "#{field}:#{value}"
           when :!=
             "(not #{field}=#{value})"
           else
