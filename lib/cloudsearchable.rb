@@ -195,7 +195,7 @@ module Cloudsearchable
     # TODO: this does NOT preserve order!
     def materialize!(*args)
       @results ||= begin
-        record_ids = @query.map{|result_hit| result_hit['fields'][@identity_field.to_s].first}.reject{|r| r.nil?}
+        record_ids = @query.map{|result_hit| result_hit['fields'][@identity_field.to_s]}.reject{|r| r.nil?}
         @class.send(@class.materialize_method, record_ids)
       end
     end
