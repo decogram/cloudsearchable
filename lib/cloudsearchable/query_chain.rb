@@ -180,7 +180,7 @@ module Cloudsearchable
     def facet_values_for(index)
       materialize!
       if index == "latlon"
-        distances = @result.map{|result_hit| result_hit['fields']["expr"]["distance"]}.reject{|r| r.nil?}
+        distances = self.map{|result_hit| result_hit['fields']["distance"]}.reject{|r| r.nil?}
       else
         if @results['facets']
           if @results['facets'][index]
