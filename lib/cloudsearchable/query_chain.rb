@@ -76,7 +76,7 @@ module Cloudsearchable
     #
     def text(text)
       raise if materialized?
-      @q = text
+      @q = "'#{text}'"
       self
     end
 
