@@ -214,7 +214,7 @@ module Cloudsearchable
       query.facet_values_for(index)
     end
     def set_location(location)
-      query.set_location
+      query.set_location(location)
     end
 
   end
