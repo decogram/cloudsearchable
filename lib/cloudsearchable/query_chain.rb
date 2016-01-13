@@ -178,14 +178,18 @@ module Cloudsearchable
     end
     def facet_values_for(index)
       materialize!
-      if @results['facets']
-        if @results['facets'][index]
-          @results['facets'][index]['buckets']
-        else
-          raise "Facet for #{index} unavailable."
-        end
+      if index == "latlon"
+        distances = @result.map{|result_hit| result_hit['fields']["expr"]["distance"]}.reject{|r| r.nil?}
       else
-        raise "improperly formed response. Facets parameter not available. messages: #{@results["messages"]}"
+        if @results['facets']
+          if @results['facets'][index]
+            @results['facets'][index]['buckets']
+          else
+            raise "Facet for #{index} unavailable."
+          end
+        else
+          raise "improperly formed response. Facets parameter not available. messages: #{@results["messages"]}"
+        end
       end
     end
 
@@ -218,6 +222,7 @@ module Cloudsearchable
       if @q.nil? || @q.empty?
         base_query[:q] = "matchall"
       end
+
       base_query = add_facet_clause(base_query)
 
     end
@@ -264,8 +269,12 @@ module Cloudsearchable
     def add_facet_clause(base_query)
 
       domain.fields.each do |key, value|
-        if value.options[:facet_enabled] == true
+        if value.type == :latlon && value.options[:facet_enabled] == true && @location != nil
+          base_query['expr.distance'] = "haversin(#{@location[0]}, #{@location[1]}, location.latitude, location.longitude)"
+          base_query[:return] += ",distance"
+        elsif value.options[:facet_enabled] == true
           base_query["facet.#{key}"] = {}
+
         end
       end
       base_query

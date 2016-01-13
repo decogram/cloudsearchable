@@ -213,6 +213,9 @@ module Cloudsearchable
     def facet_values_for(index)
       query.facet_values_for(index)
     end
+    def add_latlon_facets(location)
+      query.add_latlon_facets
+    end
 
   end
 end
