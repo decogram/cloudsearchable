@@ -23,6 +23,7 @@ module Cloudsearchable
       @fields         = Set.new
       @results        = nil
       @parser         = "structured"
+      @location       = nil
     end
 
     #
@@ -192,6 +193,9 @@ module Cloudsearchable
         end
       end
     end
+    def set_location(location)
+      @location = location
+    end
 
     def each(&block)
       materialize!
@@ -272,7 +276,7 @@ module Cloudsearchable
         if value.type == :latlon && value.options[:facet_enabled] == true && @location != nil
           base_query['expr.distance'] = "haversin(#{@location[0]}, #{@location[1]}, location.latitude, location.longitude)"
           base_query[:return] += ",distance"
-        elsif value.options[:facet_enabled] == true
+        elsif value.type != :latlon && value.options[:facet_enabled] == true
           base_query["facet.#{key}"] = {}
 
         end
