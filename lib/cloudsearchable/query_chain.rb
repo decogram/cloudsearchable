@@ -15,7 +15,7 @@ module Cloudsearchable
     def initialize(domain, options = {})
       @fatal_warnings = options.fetch(:fatal_warnings, false)
       @domain         = domain
-      @q              = nil
+      @q              = "matchall"
       @clauses        = []
       @rank           = nil
       @limit          = 100000 # 10 is the CloudSearch default, 2kb limit will probably hit before this will
@@ -197,6 +197,8 @@ module Cloudsearchable
       @location = location
     end
 
+
+
     def each(&block)
       materialize!
      if @results['hits']
@@ -223,9 +225,7 @@ module Cloudsearchable
       if fq
         base_query[:fq] = fq
       end
-      if @q.nil? || @q.empty?
-        base_query[:q] = "matchall"
-      end
+
 
       base_query = add_facet_clause(base_query)
 
