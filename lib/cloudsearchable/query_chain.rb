@@ -180,7 +180,44 @@ module Cloudsearchable
     def facet_values_for(index)
       materialize!
       if index == "latlon"
-        distances = self.map{|result_hit| result_hit['exprs']["distance"]}.reject{|r| r.nil?}
+        @buckets = [
+          {
+            value: "0-5 miles",
+            count: 0
+          },
+          {
+            value: "5-10 miles",
+            count: 0
+          },
+          {
+            value: "10-15 miles",
+            count: 0
+          },
+          {
+            value: "15-20 miles",
+            count: 0
+          },
+          {
+            value: "20+ miles",
+            count: 0
+          }
+        ]
+        buckets = self.map do |result_hit|
+            distance = result_hit['exprs']["distance"].to_i
+            if distance < 5
+              @buckets[0][:count] += 1
+            elsif distance < 10
+              @buckets[1][:count] += 1
+            elsif distance < 15
+              @buckets[2][:count] += 1
+            elsif distance < 20
+              @buckets[3][:count] += 1
+            else
+              @buckets[4][:count] += 1
+            end
+          end
+        end
+        buckets
       else
         if @results['facets']
           if @results['facets'][index]
@@ -274,11 +311,10 @@ module Cloudsearchable
 
       domain.fields.each do |key, value|
         if value.type == :latlon && value.options[:facet_enabled] == true && @location != nil
-          base_query['expr.distance'] = "haversin(#{@location[0]}, #{@location[1]}, location.latitude, location.longitude)"
+          base_query['expr.distance'] = "haversin(#{@location[0]}, #{@location[1]}, location.latitude, location.longitude)*0.621371"
           base_query[:return] += ",distance"
         elsif value.type != :latlon && value.options[:facet_enabled] == true
           base_query["facet.#{key}"] = {}
-
         end
       end
       base_query
