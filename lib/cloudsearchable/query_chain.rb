@@ -203,18 +203,17 @@ module Cloudsearchable
           }
         ]
         buckets = self.map do |result_hit|
-            distance = result_hit['exprs']["distance"].to_i
-            if distance < 5
-              @buckets[0][:count] += 1
-            elsif distance < 10
-              @buckets[1][:count] += 1
-            elsif distance < 15
-              @buckets[2][:count] += 1
-            elsif distance < 20
-              @buckets[3][:count] += 1
-            else
-              @buckets[4][:count] += 1
-            end
+          distance = result_hit['exprs']["distance"].to_i
+          if distance < 5
+            @buckets[0][:count] += 1
+          elsif distance < 10
+            @buckets[1][:count] += 1
+          elsif distance < 15
+            @buckets[2][:count] += 1
+          elsif distance < 20
+            @buckets[3][:count] += 1
+          else
+            @buckets[4][:count] += 1
           end
         end
         buckets
