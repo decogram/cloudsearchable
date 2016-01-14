@@ -180,7 +180,7 @@ module Cloudsearchable
     def facet_values_for(index)
       materialize!
       if index == "latlon"
-        @buckets = [
+        buckets = [
           {
             value: "0-5 miles",
             count: 0
@@ -202,18 +202,18 @@ module Cloudsearchable
             count: 0
           }
         ]
-        buckets = self.map do |result_hit|
+        self.each do |result_hit|
           distance = result_hit['exprs']["distance"].to_i
           if distance < 5
-            @buckets[0][:count] += 1
+            buckets[0][:count] += 1
           elsif distance < 10
-            @buckets[1][:count] += 1
+            buckets[1][:count] += 1
           elsif distance < 15
-            @buckets[2][:count] += 1
+            buckets[2][:count] += 1
           elsif distance < 20
-            @buckets[3][:count] += 1
+            buckets[3][:count] += 1
           else
-            @buckets[4][:count] += 1
+            buckets[4][:count] += 1
           end
         end
         buckets
