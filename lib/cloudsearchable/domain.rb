@@ -124,7 +124,7 @@ module Cloudsearchable
                            'host:' + host, "x-amz-content-sha256:#{payload_hash}",
                            'x-amz-date:' + amzdate].join("\n") + "\n"
 
-      canonical_request = [method, canonical_uri, request_parameters, canonical_headers,
+      canonical_request = [method, canonical_uri, canonical_headers,
                            signed_headers, payload_hash].join("\n")
 
 
@@ -152,7 +152,7 @@ module Cloudsearchable
       uri = URI.parse(endpoint)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
-      request = Net::HTTP::Get.new("#{canonical_uri}#{'?' + request_parameters}")
+      request = Net::HTTP::Get.new("#{canonical_uri}#{'?'}")
 
       auth = "#{algorithm} Credential=#{access_key + '/' + credential_scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
 
