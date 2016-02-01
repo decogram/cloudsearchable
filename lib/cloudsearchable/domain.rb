@@ -112,8 +112,8 @@ module Cloudsearchable
         kSigning
       end
 
-      access_key = AWS.config[:credentials].access_key
-      secret_key = AWS.config[:credentials].secret_access_key
+      access_key = Cloudsearchable::Config.aws_access_key
+      secret_key = Cloudsearchable::Config.aws_secret_key
 
       # Task 1: Create a Canonical Request For Signature Version 4
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
