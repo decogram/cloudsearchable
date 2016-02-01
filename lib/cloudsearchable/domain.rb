@@ -166,22 +166,10 @@ module Cloudsearchable
       puts "#{res.code} #{res.message}"
 
 
-
-
-
-      request = Net::HTTP::Get.new(uri.request_uri)
-      request.basic_auth Aws.config[:credentials].access_key_id, Aws.config[:credentials].secret_access_key
-
-      response = http.request(request)
-      response.body
-      response.status
-
-
-
       Cloudsearchable.logger.info "CloudSearch execute: #{uri.to_s}"
-      res = ActiveSupport::Notifications.instrument('cloudsearchable.execute_query') do
-        Net::HTTP.get_response(uri).body
-      end
+      # res = ActiveSupport::Notifications.instrument('cloudsearchable.execute_query') do
+      #   Net::HTTP.get_response(uri).body
+      # end
       JSON.parse(res)
     end
 
