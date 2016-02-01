@@ -119,7 +119,7 @@ module Cloudsearchable
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
       canonical_uri = '/'
       signed_headers = 'content-type;host;x-amz-content-sha256;x-amz-date'
-      payload_hash = OpenSSL::Digest::Digest.new("sha256").hexdigest("")
+      payload_hash = OpenSSL::Digest.new("sha256").hexdigest("")
       canonical_headers = ['content-type:application/x-www-form-urlencoded; charset=utf-8',
                            'host:' + host, "x-amz-content-sha256:#{payload_hash}",
                            'x-amz-date:' + amzdate].join("\n") + "\n"
@@ -134,7 +134,7 @@ module Cloudsearchable
       credential_scope = [datestamp, region, service, 'aws4_request'].join("/")
       string_to_sign = [
         algorithm, amzdate, credential_scope,
-        OpenSSL::Digest::Digest.new("sha256").hexdigest(canonical_request)
+        OpenSSL::Digest.new("sha256").hexdigest(canonical_request)
       ].join("\n")
 
 
@@ -163,7 +163,7 @@ module Cloudsearchable
 
       res = https.request(request)
 
-      puts "#{res.code} #{res.message}"
+      puts "#{res.code} #{res.message} #{res.body}"
 
 
       Cloudsearchable.logger.info "CloudSearch execute: #{uri.to_s}"
