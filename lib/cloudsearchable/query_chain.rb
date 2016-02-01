@@ -77,7 +77,8 @@ module Cloudsearchable
     #
     def text(text)
       raise if materialized?
-      @q = "'#{text}'"
+      search_terms = text.split(/\W+/).map {|word| "'#{word}'"}.join(" ")
+      @q = "(or #{search_terms})"
       self
     end
 
