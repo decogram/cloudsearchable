@@ -124,7 +124,7 @@ module Cloudsearchable
                            'host:' + host, "x-amz-content-sha256:#{payload_hash}",
                            'x-amz-date:' + amzdate].join("\n") + "\n"
 
-      canonical_request = [method, canonical_uri, reqeust_parameters, canonical_headers,
+      canonical_request = [method, canonical_uri, request_parameters, canonical_headers,
                            signed_headers, payload_hash].join("\n")
 
 
