@@ -153,7 +153,7 @@ module Cloudsearchable
       uri.query = URI.encode_www_form(params)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
-      request = Net::HTTP::Get.new("#{uri}")
+      request = Net::HTTP::Get.new(uri.request_uri)
 
       auth = "#{algorithm} Credential=#{access_key + '/' + credential_scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
 
@@ -161,7 +161,7 @@ module Cloudsearchable
       request.add_field 'X-Amz-Date', amzdate
       request.add_field 'X-Amz-Content-Sha256', payload_hash
       request.add_field 'Authorization', auth
-
+      puts request
       res = https.request(request)
 
       puts "#{res.code} #{res.message} #{res.body}"
