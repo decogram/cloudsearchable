@@ -95,7 +95,7 @@ module Cloudsearchable
       uri.query = URI.encode_www_form(sorted_params).gsub("+", "%20")
       uri.query = uri.query.gsub("*", "%2A")
       res = CloudSearch::AwsSigner.send_signed_request("GET", uri, "")
-      JSON.parse(res)
+      JSON.parse(res.body)
     end
 
     def deletion_sdf record_id
