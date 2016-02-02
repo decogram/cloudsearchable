@@ -116,7 +116,7 @@ module Cloudsearchable
 
       # Task 1: Create a Canonical Request For Signature Version 4
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
-      canonical_uri = '/'
+      canonical_uri = "/#{CloudSearch::API_VERSION}/search"
       signed_headers = 'content-type;host;x-amz-content-sha256;x-amz-date'
       payload_hash = OpenSSL::Digest.new("sha256").hexdigest("")
       canonical_headers = ['content-type:application/x-www-form-urlencoded; charset=utf-8',
