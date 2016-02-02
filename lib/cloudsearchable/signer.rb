@@ -73,7 +73,7 @@ module CloudSearch
       result = JSON.parse(res)
       return result
     end
-    def getSignatureKey key, dateStamp, regionName, serviceName
+    def self.getSignatureKey key, dateStamp, regionName, serviceName
       kDate    = OpenSSL::HMAC.digest('sha256', "AWS4" + key, dateStamp)
       kRegion  = OpenSSL::HMAC.digest('sha256', kDate, regionName)
       kService = OpenSSL::HMAC.digest('sha256', kRegion, serviceName)
