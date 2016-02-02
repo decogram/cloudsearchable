@@ -89,7 +89,7 @@ module Cloudsearchable
     end
 
     def execute_query(params)
-      sorted_params = params.sort_by {|key, value| key}
+      sorted_params = params.sort_by {|key, value| key.to_s}
       method = 'GET'
       service = 'cloudsearch'
 
