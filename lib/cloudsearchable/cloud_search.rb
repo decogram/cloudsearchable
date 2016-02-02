@@ -31,6 +31,5 @@ module CloudSearch
       # Raise an exception based on the response see http://ruby-doc.org/stdlib-1.9.2/libdoc/net/http/rdoc/Net/HTTP.html
       response.error!
     end
-
   end
 end
