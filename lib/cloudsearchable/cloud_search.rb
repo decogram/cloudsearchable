@@ -22,7 +22,7 @@ module CloudSearch
   end
 
   def self.post_sdf_list endpoint, sdf_list
-    uri = URI.parse("http://#{endpoint}/#{API_VERSION}/documents/batch")
+    uri = URI.parse("https://#{endpoint}/#{API_VERSION}/documents/batch")
     body = JSON.generate sdf_list
     response = AwsSigner.send_signed_request("POST", uri, "us-west-2", body, "")
 
