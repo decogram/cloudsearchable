@@ -66,6 +66,8 @@ module CloudSearch
 
       Cloudsearchable.logger.info "CloudSearch execute: #{uri.to_s}"
 
+      puts "#{res.code} #{res.body} #{res.message}"
+
       return res
     end
     def self.getSignatureKey key, dateStamp, regionName, serviceName
