@@ -24,7 +24,7 @@ module CloudSearch
   def self.post_sdf_list endpoint, sdf_list
     uri = URI.parse("http://#{endpoint}/#{API_VERSION}/documents/batch")
     body = JSON.generate sdf_list
-    result = AwsSigner.send_signed_request("POST", uri, region, body)
+    result = AwsSigner.send_signed_request("POST", uri, "us-west-2", body)
 
     # req = Net::HTTP::Post.new(uri.path)
     # req.body = JSON.generate sdf_list
