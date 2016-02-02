@@ -129,8 +129,6 @@ module Cloudsearchable
       canonical_request = [method, canonical_uri, request_parameters, canonical_headers,
                            signed_headers, payload_hash].join("\n")
 
-      puts canonical_request
-      puts ""
 
 
       # Task 2: Create a String to Sign for Signature Version 4
@@ -141,9 +139,6 @@ module Cloudsearchable
         algorithm, amzdate, credential_scope,
         OpenSSL::Digest.new("sha256").hexdigest(canonical_request)
       ].join("\n")
-
-      puts string_to_sign
-      puts ""
 
 
       # Task 3: Calculate the AWS Signature Version 4
@@ -166,8 +161,6 @@ module Cloudsearchable
       request.add_field 'X-Amz-Content-Sha256', payload_hash
       request.add_field 'Authorization', auth
       res = https.request(request)
-
-      puts "#{res.code} #{res.message} #{res.body}\n\n"
 
 
       Cloudsearchable.logger.info "CloudSearch execute: #{uri.to_s}"
