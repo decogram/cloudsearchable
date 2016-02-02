@@ -57,6 +57,7 @@ module CloudSearch
         request = Net::HTTP::Get.new("#{canonical_uri}#{'?' + request_parameters}")
       else
         request = Net::HTTP::Post.new("#{canonical_uri}" )
+        request.body = body
       end
 
       auth = "#{algorithm} Credential=#{access_key + '/' + credential_scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
