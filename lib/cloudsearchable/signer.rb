@@ -11,8 +11,6 @@ module CloudSearch
       amzdate = t.strftime('%Y%m%dT%H%M%SZ')
       datestamp = t.strftime('%Y%m%d')
 
-
-
       access_key = Cloudsearchable::Config.aws_access_key
       secret_key = Cloudsearchable::Config.aws_secret_key
 
@@ -20,7 +18,7 @@ module CloudSearch
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
       canonical_uri = uri.path
       signed_headers = 'content-type;host;x-amz-content-sha256;x-amz-date'
-      payload_hash = OpenSSL::Digest.new("sha256").hexdigest("")
+      payload_hash = OpenSSL::Digest.new("sha256").hexdigest(body)
       canonical_headers = ['content-type:application/x-www-form-urlencoded; charset=utf-8',
                            'host:' + host, "x-amz-content-sha256:#{payload_hash}",
                            'x-amz-date:' + amzdate].join("\n") + "\n"
@@ -67,11 +65,8 @@ module CloudSearch
 
 
       Cloudsearchable.logger.info "CloudSearch execute: #{uri.to_s}"
-      # res = ActiveSupport::Notifications.instrument('cloudsearchable.execute_query') do
-      #   Net::HTTP.get_response(uri).body
-      # end
-      result = JSON.parse(res)
-      return result
+
+      return res
     end
     def self.getSignatureKey key, dateStamp, regionName, serviceName
       kDate    = OpenSSL::HMAC.digest('sha256', "AWS4" + key, dateStamp)

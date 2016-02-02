@@ -24,7 +24,7 @@ module CloudSearch
   def self.post_sdf_list endpoint, sdf_list
     uri = URI.parse("http://#{endpoint}/#{API_VERSION}/documents/batch")
     body = JSON.generate sdf_list
-    result = AwsSigner.send_signed_request("POST", uri, "us-west-2", body, "")
+    response = AwsSigner.send_signed_request("POST", uri, "us-west-2", body, "")
 
     # req = Net::HTTP::Post.new(uri.path)
     # req.body = JSON.generate sdf_list
@@ -32,12 +32,12 @@ module CloudSearch
     #
     # response = Net::HTTP.start(uri.host, uri.port){|http| http.request(req)}
     #
-    # if response.is_a? Net::HTTPSuccess
-    #   JSON.parse response.body
-    # else
-    #   # Raise an exception based on the response see http://ruby-doc.org/stdlib-1.9.2/libdoc/net/http/rdoc/Net/HTTP.html
-    #   response.error!
-    # end
+    if response.is_a? Net::HTTPSuccess
+      JSON.parse response.body
+    else
+      # Raise an exception based on the response see http://ruby-doc.org/stdlib-1.9.2/libdoc/net/http/rdoc/Net/HTTP.html
+      response.error!
+    end
 
   end
 end
