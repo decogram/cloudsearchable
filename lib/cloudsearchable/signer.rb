@@ -6,7 +6,7 @@ module CloudSearch
       if uri.query == nil
         request_parameters = uri.query
       else
-        request_paramters = ""
+        request_parameters = ""
       end
 
       host = uri.host
