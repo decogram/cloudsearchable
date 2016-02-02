@@ -1,13 +1,9 @@
 module CloudSearch
   module AwsSigner
-    def self.send_signed_request(method, uri, region, body )
+    def self.send_signed_request(method, uri, region, body, params )
       service = 'cloudsearch'
       endpoint = "https://#{uri.host}#{uri.path}"
-      if uri.query == nil
-        request_parameters = uri.query
-      else
-        request_parameters = ""
-      end
+      request_parameters = params
 
       host = uri.host
 
