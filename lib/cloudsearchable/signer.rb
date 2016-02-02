@@ -52,7 +52,7 @@ module CloudSearch
       if method == "GET"
         request = Net::HTTP::Get.new("#{canonical_uri}#{'?' + request_parameters}")
       else
-        request = Net::HTTP::Post.new("#{canonical_uri}#{'?' + request_parameters}")
+        request = Net::HTTP::Post.new("#{canonical_uri}#{'?' + request_parameters}", uri.port )
       end
 
       auth = "#{algorithm} Credential=#{access_key + '/' + credential_scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
