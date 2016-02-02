@@ -96,8 +96,9 @@ module Cloudsearchable
       region = 'us-west-2'
       endpoint = "https://#{search_endpoint}/#{CloudSearch::API_VERSION}/search"
       uri = URI.parse(endpoint)
-      uri.query = URI.encode_www_form(sorted_params)
+      uri.query = URI.encode_www_form(sorted_params).gsub("+", "%20")
       request_parameters = uri.query
+
       host = uri.host
 
       t = Time.now.utc
