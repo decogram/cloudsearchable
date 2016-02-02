@@ -3,7 +3,7 @@ module CloudSearch
     def self.send_signed_request(method, uri, region, body )
       service = 'cloudsearch'
       endpoint = "https://#{uri.host}#{uri.path}"
-      if uri.query
+      if uri.query == nil
         request_parameters = uri.query
       else
         request_paramters = ""
