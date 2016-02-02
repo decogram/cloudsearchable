@@ -1,5 +1,6 @@
 require 'aws-sdk'
 require 'json'
+require 'cloudsearchable/signer'
 
 module CloudSearch
   API_VERSION = "2013-01-01"
