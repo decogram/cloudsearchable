@@ -119,7 +119,7 @@ module Cloudsearchable
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
       canonical_uri = uri.path
       signed_headers = 'content-type;host;x-amz-content-sha256;x-amz-date'
-      payload_hash = OpenSSL::Digest.new("sha256").hexdigest("{}")
+      payload_hash = OpenSSL::Digest.new("sha256").hexdigest("")
       canonical_headers = ['content-type:application/x-www-form-urlencoded; charset=utf-8',
                            'host:' + host, "x-amz-content-sha256:#{payload_hash}",
                            'x-amz-date:' + amzdate].join("\n") + "\n"
