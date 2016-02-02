@@ -89,13 +89,14 @@ module Cloudsearchable
     end
 
     def execute_query(params)
+      sorted_params = params.sort_by {|key, value| key}
       method = 'GET'
       service = 'cloudsearch'
 
       region = 'us-west-2'
       endpoint = "https://#{search_endpoint}/#{CloudSearch::API_VERSION}/search"
       uri = URI.parse(endpoint)
-      uri.query = URI.encode_www_form(params)
+      uri.query = URI.encode_www_form(sorted_params)
       request_parameters = uri.query
       host = uri.host
 
