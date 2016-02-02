@@ -24,7 +24,7 @@ module CloudSearch
       canonical_uri = uri.path
       signed_headers = 'content-type;host;x-amz-content-sha256;x-amz-date'
       payload_hash = OpenSSL::Digest.new("sha256").hexdigest(body)
-      canonical_headers = ["content-type: #{content_type}",
+      canonical_headers = ["content-type:#{content_type}",
                            'host:' + host, "x-amz-content-sha256:#{payload_hash}",
                            'x-amz-date:' + amzdate].join("\n") + "\n"
 
