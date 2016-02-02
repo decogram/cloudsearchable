@@ -11,14 +11,7 @@ module CloudSearch
       amzdate = t.strftime('%Y%m%dT%H%M%SZ')
       datestamp = t.strftime('%Y%m%d')
 
-      def getSignatureKey key, dateStamp, regionName, serviceName
-        kDate    = OpenSSL::HMAC.digest('sha256', "AWS4" + key, dateStamp)
-        kRegion  = OpenSSL::HMAC.digest('sha256', kDate, regionName)
-        kService = OpenSSL::HMAC.digest('sha256', kRegion, serviceName)
-        kSigning = OpenSSL::HMAC.digest('sha256', kService, "aws4_request")
 
-        kSigning
-      end
 
       access_key = Cloudsearchable::Config.aws_access_key
       secret_key = Cloudsearchable::Config.aws_secret_key
@@ -79,6 +72,14 @@ module CloudSearch
       # end
       result = JSON.parse(res)
       return result
+    end
+    def getSignatureKey key, dateStamp, regionName, serviceName
+      kDate    = OpenSSL::HMAC.digest('sha256', "AWS4" + key, dateStamp)
+      kRegion  = OpenSSL::HMAC.digest('sha256', kDate, regionName)
+      kService = OpenSSL::HMAC.digest('sha256', kRegion, serviceName)
+      kSigning = OpenSSL::HMAC.digest('sha256', kService, "aws4_request")
+
+      kSigning
     end
   end
 end
