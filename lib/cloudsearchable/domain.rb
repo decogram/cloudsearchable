@@ -150,9 +150,10 @@ module Cloudsearchable
 
 
       uri = URI.parse(endpoint)
+      uri.query = URI.encode_www_form(params)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
-      request = Net::HTTP::Get.new("#{canonical_uri}#{'?'}")
+      request = Net::HTTP::Get.new("#{uri}")
 
       auth = "#{algorithm} Credential=#{access_key + '/' + credential_scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
 
