@@ -140,6 +140,7 @@ module Cloudsearchable
       ].join("\n")
 
       puts string_to_sign
+      puts ""
 
 
       # Task 3: Calculate the AWS Signature Version 4
@@ -151,12 +152,9 @@ module Cloudsearchable
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-add-signature-to-request.html
       signature = OpenSSL::HMAC.hexdigest('sha256', signing_key, string_to_sign)
 
-
-
-      uri = URI.parse(endpoint)
-      uri.query = URI.encode_www_form(params)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
+      puts uri.request_uri
       request = Net::HTTP::Get.new(uri.request_uri)
 
       auth = "#{algorithm} Credential=#{access_key + '/' + credential_scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
