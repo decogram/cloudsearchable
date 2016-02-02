@@ -96,6 +96,7 @@ module Cloudsearchable
       endpoint = "https://#{search_endpoint}/#{CloudSearch::API_VERSION}/search"
       uri = URI.parse(endpoint)
       uri.query = URI.encode_www_form(params)
+      request_parameters = uri.query
       host = uri.host
 
       t = Time.now.utc
@@ -123,7 +124,7 @@ module Cloudsearchable
                            'host:' + host, "x-amz-content-sha256:#{payload_hash}",
                            'x-amz-date:' + amzdate].join("\n") + "\n"
 
-      canonical_request = [method, canonical_uri, canonical_headers,
+      canonical_request = [method, canonical_uri, reqeust_parameters, canonical_headers,
                            signed_headers, payload_hash].join("\n")
 
 
@@ -160,10 +161,9 @@ module Cloudsearchable
       request.add_field 'X-Amz-Date', amzdate
       request.add_field 'X-Amz-Content-Sha256', payload_hash
       request.add_field 'Authorization', auth
-      puts request
       res = https.request(request)
 
-      puts "#{res.code} #{res.message} #{res.body}"
+      puts "#{res.code} #{res.message} #{res.body}\n\n"
 
 
       Cloudsearchable.logger.info "CloudSearch execute: #{uri.to_s}"
