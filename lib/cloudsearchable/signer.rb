@@ -13,13 +13,18 @@ module CloudSearch
 
       access_key = Cloudsearchable::Config.aws_access_key
       secret_key = Cloudsearchable::Config.aws_secret_key
+      if method == "GET"
+        content_type = 'application/x-www-form-urlencoded; charset=utf-8'
+      else
+        content_type = "application/json"
+      end
 
       # Task 1: Create a Canonical Request For Signature Version 4
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html
       canonical_uri = uri.path
       signed_headers = 'content-type;host;x-amz-content-sha256;x-amz-date'
       payload_hash = OpenSSL::Digest.new("sha256").hexdigest(body)
-      canonical_headers = ['content-type:application/x-www-form-urlencoded; charset=utf-8',
+      canonical_headers = ["content-type: #{content_type}",
                            'host:' + host, "x-amz-content-sha256:#{payload_hash}",
                            'x-amz-date:' + amzdate].join("\n") + "\n"
 
@@ -62,7 +67,7 @@ module CloudSearch
 
       auth = "#{algorithm} Credential=#{access_key + '/' + credential_scope}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
 
-      request.add_field 'Content-Type', "application/x-www-form-urlencoded; charset=utf-8"
+      request.add_field 'Content-Type', content_type
       request.add_field 'X-Amz-Date', amzdate
       request.add_field 'X-Amz-Content-Sha256', payload_hash
       request.add_field 'Authorization', auth
