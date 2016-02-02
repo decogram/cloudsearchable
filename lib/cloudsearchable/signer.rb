@@ -1,9 +1,9 @@
 module CloudSearch
   module AwsSigner
-    def self.send_signed_request(method, uri, region, body, params )
+    def self.send_signed_request(method, uri, body)
       service = 'cloudsearch'
       endpoint = "https://#{uri.host}#{uri.path}"
-      request_parameters = params
+      request_parameters = uri.query
 
       host = uri.host
 
@@ -13,6 +13,7 @@ module CloudSearch
 
       access_key = Cloudsearchable::Config.aws_access_key
       secret_key = Cloudsearchable::Config.aws_secret_key
+      region = Cloudsearchable::Config.region
       if method == "GET"
         content_type = 'application/x-www-form-urlencoded; charset=utf-8'
       else

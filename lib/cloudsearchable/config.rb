@@ -6,6 +6,7 @@ module Cloudsearchable
   module Config
     extend self
     include Options
+    option :region
     option :aws_access_key
     option :aws_secret_key
     option :domain_prefix, :default => defined?(Rails) ? "#{Rails.env}" : ""
