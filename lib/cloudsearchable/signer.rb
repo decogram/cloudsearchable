@@ -26,6 +26,9 @@ module CloudSearch
       canonical_request = [method, canonical_uri, request_parameters, canonical_headers,
                            signed_headers, payload_hash].join("\n")
 
+      puts canonical_request
+      puts ""
+
 
 
       # Task 2: Create a String to Sign for Signature Version 4
@@ -36,7 +39,8 @@ module CloudSearch
         algorithm, amzdate, credential_scope,
         OpenSSL::Digest.new("sha256").hexdigest(canonical_request)
       ].join("\n")
-
+      puts string_to_sign
+      puts ""
 
       # Task 3: Calculate the AWS Signature Version 4
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-calculate-signature.html
