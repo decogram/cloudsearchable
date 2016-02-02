@@ -94,7 +94,7 @@ module Cloudsearchable
 
 
       method = 'GET'
-      service = 'iam'
+      service = 'cloudsearch'
       host = 'iam.amazonaws.com'
       region = 'us-west-2'
       endpoint = "https://#{search_endpoint}/#{CloudSearch::API_VERSION}/search"
