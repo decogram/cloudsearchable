@@ -128,6 +128,7 @@ module Cloudsearchable
                            signed_headers, payload_hash].join("\n")
 
       puts canonical_request
+      puts ""
 
 
       # Task 2: Create a String to Sign for Signature Version 4
