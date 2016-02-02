@@ -89,15 +89,14 @@ module Cloudsearchable
     end
 
     def execute_query(params)
-      uri    = URI("https://#{search_endpoint}/#{CloudSearch::API_VERSION}/search")
-      uri.query = URI.encode_www_form(params)
-
-
       method = 'GET'
       service = 'cloudsearch'
-      host = 'iam.amazonaws.com'
+
       region = 'us-west-2'
       endpoint = "https://#{search_endpoint}/#{CloudSearch::API_VERSION}/search"
+      uri = URI.parse(endpoint)
+      uri.query = URI.encode_www_form(params)
+      host = uri.host
 
       t = Time.now.utc
       amzdate = t.strftime('%Y%m%dT%H%M%SZ')
