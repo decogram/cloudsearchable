@@ -139,6 +139,8 @@ module Cloudsearchable
         OpenSSL::Digest.new("sha256").hexdigest(canonical_request)
       ].join("\n")
 
+      puts string_to_sign
+
 
       # Task 3: Calculate the AWS Signature Version 4
       # http://docs.aws.amazon.com/general/latest/gr/sigv4-calculate-signature.html
