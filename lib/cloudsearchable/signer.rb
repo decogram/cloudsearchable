@@ -1,4 +1,4 @@
-module CloudSearchable
+module Cloudsearchable
   module AwsSigner
     def self.send_signed_request(method, uri, body)
       service = 'cloudsearch'

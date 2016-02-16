@@ -1,10 +1,11 @@
 require 'cloudsearchable/version'
-require 'cloudsearchable/signer'
+
 require 'cloudsearchable/domain'
 require 'cloudsearchable/field'
 require 'cloudsearchable/query_chain'
 require 'cloudsearchable/cloud_search'
 require 'cloudsearchable/config'
+require 'cloudsearchable/signer'
 
 require 'active_support/inflector'
 require 'active_support/core_ext/string'
