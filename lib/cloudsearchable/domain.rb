@@ -94,7 +94,7 @@ module Cloudsearchable
       uri = URI.parse(endpoint)
       uri.query = URI.encode_www_form(sorted_params).gsub("+", "%20")
       uri.query = uri.query.gsub("*", "%2A")
-      res = CloudSearchable::AwsSigner.send_signed_request("GET", uri, "")
+      res = Cloudsearchable::AwsSigner.send_signed_request("GET", uri, "")
       JSON.parse(res.body)
     end
 
