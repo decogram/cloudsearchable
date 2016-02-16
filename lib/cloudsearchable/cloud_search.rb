@@ -24,7 +24,7 @@ module CloudSearch
   def self.post_sdf_list endpoint, sdf_list
     uri = URI.parse("https://#{endpoint}/#{API_VERSION}/documents/batch")
     body = JSON.generate sdf_list
-    response = AwsSigner.send_signed_request("POST", uri, body)
+    response = CloudSearchable::AwsSigner.send_signed_request("POST", uri, body)
     if response.is_a? Net::HTTPSuccess
       JSON.parse response.body
     else
