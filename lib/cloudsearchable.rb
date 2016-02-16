@@ -1,5 +1,5 @@
 require 'cloudsearchable/version'
-
+require 'cloudsearchable/signer'
 require 'cloudsearchable/domain'
 require 'cloudsearchable/field'
 require 'cloudsearchable/query_chain'
