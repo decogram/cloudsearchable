@@ -34,6 +34,7 @@ module Cloudsearchable
       @name = name.to_sym
       @type = type.to_sym
       @source = options[:source] || @name
+      puts options[:source]
       @options = options.slice(*FieldTypeOptionsKeys[@type])
     end
 
