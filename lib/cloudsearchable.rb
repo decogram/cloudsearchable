@@ -86,6 +86,10 @@ module Cloudsearchable
       field name, :double, options, &block
     end
 
+    def text_array name, options = {}, &block
+      field_name name, :text_array, &block
+    end
+
     def field name, type, options = {}, &block
       # This block is executed in the context of the record
       if block_given?
