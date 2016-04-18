@@ -87,7 +87,7 @@ module Cloudsearchable
     end
 
     def text_array name, options = {}, &block
-      field_name name, :text_array, &block
+      field name, :text_array, &block
     end
 
     def field name, type, options = {}, &block
