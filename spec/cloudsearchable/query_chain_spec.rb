@@ -53,7 +53,7 @@ describe Cloudsearchable::Query do
       end
     end
 
-    context 'uint data type' do
+    context 'int data type' do
       it 'supports range query' do
         expect(clazz.search.where(:helpfulness, :within_range, "0..#{123}").query.to_q[:bq]).to be =~ /helpfulness:0..123/
       end
@@ -127,7 +127,7 @@ describe Cloudsearchable::Query do
   end
 
   it 'supports ordering with a rank expression' do
-    expect(clazz.search.where(customer_id: 12345).order('-helpfulness').query.to_q[:rank]).to eq '-helpfulness'
+    expect(clazz.search.where(customer_id: 12345).order('-helpfulness').query.to_q[:sort]).to eq '-helpfulness'
   end
 
   it 'supports limit' do

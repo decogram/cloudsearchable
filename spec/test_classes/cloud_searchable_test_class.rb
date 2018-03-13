@@ -30,8 +30,8 @@ CloudSearchableSampleClassFactory = Proc.new do
       # Map the 'name' Ruby attribute to a field called 'test_name'
       text    :test_name,   :result_enabled => false, :search_enabled => true, :source => :name
 
-      # uint fields can be used in result ranking functions
-      uint    :helpfulness, :result_enabled => true,  :search_enabled => false do; 1234 end
+      # int fields can be used in result ranking functions
+      int    :helpfulness, :result_enabled => true,  :search_enabled => false do; 1234 end
     end
 
     # A named index.

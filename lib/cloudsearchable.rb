@@ -90,6 +90,10 @@ module Cloudsearchable
       field name, :text_array, options, &block
     end
 
+    def date name, options = {}, &block
+      field name, :date, options, &block
+    end
+
     def field name, type, options = {}, &block
       # This block is executed in the context of the record
       if block_given?
@@ -188,7 +192,7 @@ module Cloudsearchable
       @identity_field = identity_field
     end
 
-    [:where, :text, :order, :limit, :offset, :returning].each do |method_name|
+    [:where, :text, :plain_text, :order, :limit, :offset, :returning].each do |method_name|
       # Passthrough methods, see CloudSearch::Domain for docs
       define_method method_name do |*args|
         @query.send(method_name, *args)

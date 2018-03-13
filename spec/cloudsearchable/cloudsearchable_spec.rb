@@ -9,12 +9,12 @@ describe Cloudsearchable do
     expect(test_index).to be_a(Cloudsearchable::Domain)
     expect(test_index.fields.count).to eq 4 #3 explicit + 1 for the id of the object
   end
-  
+
   it 'has a default index' do
     expect(clazz.cloudsearch_index).to be_a(Cloudsearchable::Domain)
     expect(clazz.cloudsearch_index(:test_index)).to_not eq(clazz.cloudsearch_index)
   end
-  
+
   it 'names domains consistent with CloudSearch limitations' do
     expect(clazz.cloudsearch_index(:test_index).name).to be =~ /^[a-z][a-z0-9\-]+$/
   end
@@ -39,15 +39,15 @@ describe Cloudsearchable do
       expect(test_index.fields[:test_name].value_for(inst)).to eq (inst.name)
       expect(test_index.fields[:helpfulness].value_for(inst)).to eq(1234)
     end
-    
+
     it 'reindexes when told to' do
-      expect(clazz.cloudsearch_index(           )).to receive(:post_record).with(inst, inst.id, inst.lock_version)
-      expect(clazz.cloudsearch_index(:test_index)).to receive(:post_record).with(inst, inst.id, inst.lock_version)
+      expect(clazz.cloudsearch_index(           )).to receive(:post_record).with(inst, inst.id)
+      expect(clazz.cloudsearch_index(:test_index)).to receive(:post_record).with(inst, inst.id)
       inst.update_indexes
     end
-    
+
     it 'generates a sensible addition sdf document' do
-      sdf = clazz.cloudsearch_index.send :addition_sdf, inst, inst.id, inst.lock_version
+      sdf = clazz.cloudsearch_index.send :addition_sdf, inst, inst.id
       expect(sdf[:fields][:helpfulness]).to eq(1234)
     end
   end
@@ -62,8 +62,8 @@ describe Cloudsearchable do
     end
 
     it 'reindexes when told to' do
-      expect(clazz.cloudsearch_index(           )).to receive(:delete_record).with(inst.id, inst.lock_version)
-      expect(clazz.cloudsearch_index(:test_index)).to receive(:delete_record).with(inst.id, inst.lock_version)
+      expect(clazz.cloudsearch_index(           )).to receive(:delete_record).with(inst.id)
+      expect(clazz.cloudsearch_index(:test_index)).to receive(:delete_record).with(inst.id)
       inst.update_indexes
     end
   end

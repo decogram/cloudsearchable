@@ -16,7 +16,7 @@ module Cloudsearchable
 
     # Defines a literal index field.
     # @param name field name
-    # @param type field type - one of :literal, :uint, or :text
+    # @param type field type - one of :literal, :int, or :text
     # @option options [Boolean] :search_enabled (true)
     # @option options [Boolean] :return_enabled (true)
     # @option options [Symbol or Proc] :source The name of a method to call on a record to fetch

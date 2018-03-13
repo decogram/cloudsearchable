@@ -12,7 +12,7 @@ describe CloudSearch do
       instance.customer = '1234'
     end
   end
-  let(:sdf_document){item.class.cloudsearch_index(:test_index).send :addition_sdf, item, item.id, item.lock_version}
+  let(:sdf_document){item.class.cloudsearch_index(:test_index).send :addition_sdf, item, item.id}
   let(:endpoint){'https://fake_end_point.amazon.com'}
 
   class MockHTTPOK < Net::HTTPOK

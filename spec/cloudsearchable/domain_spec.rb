@@ -70,11 +70,11 @@ describe Cloudsearchable::Domain do
     end
     
     it "generates present fields" do
-      expect(subject.addition_sdf(object, "id", 1)[:fields][:field_with_present_value]).to eq 42
+      expect(subject.addition_sdf(object, "id")[:fields][:field_with_present_value]).to eq 42
     end
     
     it "does not generate nil fields" do
-      expect(subject.addition_sdf(object, "id", 1)[:fields][:field_with_nil_value]).to be_nil
+      expect(subject.addition_sdf(object, "id")[:fields][:field_with_nil_value]).to be_nil
     end
   end
 

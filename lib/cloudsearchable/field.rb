@@ -9,7 +9,7 @@ module Cloudsearchable
   # Represents a single field in a CloudSearch index.
   #
   class Field
-    FieldTypes = [:literal, :int, :text, :latlon, :double, :text_array].freeze
+    FieldTypes = [:literal, :int, :text, :latlon, :double, :text_array, :date].freeze
     # Maps the type of field to the name of the options hash when defining the field
     FieldTypeOptionsNames = {
       :literal => :literal_options,
@@ -17,15 +17,17 @@ module Cloudsearchable
       :text => :text_options,
       :text_array => :text_array_options,
       :latlon => :lat_lon_options,
-      :double => :double_options}.freeze
+      :double => :double_options,
+      :date => :date_options}.freeze
     # Maps from field type to the allowed set of options for the field
     FieldTypeOptionsKeys = {
       literal: [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
       int:     [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
-      text:    [:default_value, :result_enabled].freeze,
+      text:    [:default_value, :return_enabled].freeze,
       text_array:    [:default_value, :return_enabled, :analysis_scheme, :highlight_enabled, :source_field].freeze,
       latlon:  [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
-      double:  [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze
+      double:  [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze,
+      date:  [:default_value, :facet_enabled, :return_enabled, :search_enabled, :sort_enabled, :source_field].freeze
     }.freeze
     attr_reader :name, :type, :source, :options
 

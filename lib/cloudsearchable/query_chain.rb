@@ -17,7 +17,7 @@ module Cloudsearchable
       @domain         = domain
       @q              = "matchall"
       @clauses        = []
-      @rank           = nil
+      @sort           = nil
       @limit          = 100000 # 10 is the CloudSearch default, 2kb limit will probably hit before this will
       @offset         = nil
       @fields         = Set.new
@@ -39,7 +39,7 @@ module Cloudsearchable
     #   Collection.search.where(:customer_id, :==, 12345)
     #
     # The value you provide must be of the same type as the field.  For text and literal
-    # values, provide a string value.  For uint fields, provide a numeric value.
+    # values, provide a string value.  For int fields, provide a numeric value.
     #
     # To search for any of several possible values for a field, use the :any operator:
     #
@@ -82,6 +82,12 @@ module Cloudsearchable
       self
     end
 
+    def plain_text(text)
+      raise if materialized?
+      @q = text
+      self
+    end
+
     #
     # Set a rank expression on the query, overwriting any existing expression. Defaults to "-text_relevance"
     #
@@ -93,7 +99,7 @@ module Cloudsearchable
     def order rank_expression
       raise if materialized?
       raise "order clause must be a string, not a #{rank_expression.class}" unless rank_expression.is_a? String
-      @rank = rank_expression.to_s
+      @sort = rank_expression.to_s
       self
     end
 
@@ -256,11 +262,17 @@ module Cloudsearchable
       {
         q: @q,
         return: @fields.reduce("") { |s,f| s << f.to_s },
-        size: 10000,
+        size: @limit,
         "q.parser" => @parser
       }
       if fq
         base_query[:fq] = fq
+      end
+      if @sort
+        base_query[:sort] = @sort
+      end
+      if @offset
+        base_query[:start] = @offset
       end
 
 
@@ -274,8 +286,14 @@ module Cloudsearchable
       # Operations for which 'value' is not a scalar
       if op == :any
         '(or ' + value.map { |v| "#{field}:#{query_clause_value(type, v)}" }.join(' ') + ')'
-      elsif op == :within_range && type == :int
-        "#{field}=#{value.to_s}"
+      elsif op == :within_range && (type == :int || type == :date)
+        #needs to follow cloudsearch range definitions
+        "(range field=#{field} #{value.to_s})"
+      elsif op == :not_within_range && (type == :int || type == :date)
+        #needs to follow cloudsearch range definitions
+        "(not (range field=#{field} #{value.to_s}))"
+      elsif op == :prefixed_with
+        "(prefix field=#{field} '#{value.to_s}')"
       else
         value = query_clause_value(type, value)
 
@@ -284,11 +302,11 @@ module Cloudsearchable
           when :==, :eq
             "#{field}:#{value}"
           when :!=
-            "(not #{field}=#{value})"
+            "(not #{field}:#{value})"
           else
             # Operation-specific, type-specific operations on scalars
             case type
-              when :int
+              when :int, :date
                 case op
                   when :>
                     "#{field}:#{value+1}.."
