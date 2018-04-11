@@ -219,6 +219,8 @@ module Cloudsearchable
     def found_count
       query.found_count
     end
+
+    alias_method :total_count, :found_count
     def facet_values_for(index)
       query.facet_values_for(index)
     end

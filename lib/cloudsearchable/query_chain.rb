@@ -18,7 +18,7 @@ module Cloudsearchable
       @q              = "matchall"
       @clauses        = []
       @sort           = nil
-      @limit          = 100000 # 10 is the CloudSearch default, 2kb limit will probably hit before this will
+      @limit          = 10000 # 10 is the CloudSearch default, 2kb limit will probably hit before this will
       @offset         = nil
       @fields         = Set.new
       @results        = nil
@@ -184,6 +184,8 @@ module Cloudsearchable
         raise "improperly formed response. hits parameter not available. messages: #{@results["messages"]}"
       end
     end
+    alias_method :total_count, :found_count
+
     def facet_values_for(index)
       materialize!
       if index == "latlon"
