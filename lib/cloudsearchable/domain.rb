@@ -81,6 +81,18 @@ module Cloudsearchable
       end
     end
 
+    def post_records records
+      ActiveSupport::Notifications.instrument('cloudsearchable.post_record') do
+        CloudSearch.post_sdf doc_endpoint, records.colldect {|rec| addition_sdf(rec, rec.id) }
+      end
+    end
+
+    def delete_records record_ids
+      ActiveSupport::Notifications.instrument('cloudsearchable.delete_record') do
+        CloudSearch.post_sdf doc_endpoint, record_ids.colldect {|record_id| deletion_sdf(record_id) }
+      end
+    end
+
     # Delete the CloudSearch document for a particular record (version must be greater than the last version pushed)
     def delete_record record_id
       ActiveSupport::Notifications.instrument('cloudsearchable.delete_record') do

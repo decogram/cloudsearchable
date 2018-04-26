@@ -50,6 +50,7 @@ module Cloudsearchable
     end
   end
 
+
   def remove_from_indexes
     cloudsearch_domains.map do |name, domain|
       domain.delete_record(id)
@@ -166,6 +167,19 @@ module Cloudsearchable
     def materialize_method method_name = nil
       @materialize_method = method_name unless method_name.nil?
       @materialize_method.nil? ? :find : @materialize_method
+    end
+
+    def batch_add_to_indexes(records)
+      cloudsearch_domains.map do |name, domain|
+        domain.post_records(records)
+      end
+    end
+
+
+    def batch_remove_from_indexes(record_ids)
+      cloudsearch_domains.map do |name, domain|
+        domain.delete_records(record_ids)
+      end
     end
   end
 
