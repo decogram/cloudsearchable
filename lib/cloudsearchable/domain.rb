@@ -83,13 +83,14 @@ module Cloudsearchable
 
     def post_records records
       ActiveSupport::Notifications.instrument('cloudsearchable.post_record') do
-        CloudSearch.post_sdf doc_endpoint, records.colldect {|rec| addition_sdf(rec, rec.id) }
+p records.collect {|rec| addition_sdf(rec, rec.id) }
+        CloudSearch.post_sdf_list doc_endpoint, records.collect {|rec| addition_sdf(rec, rec.id) }
       end
     end
 
     def delete_records record_ids
       ActiveSupport::Notifications.instrument('cloudsearchable.delete_record') do
-        CloudSearch.post_sdf doc_endpoint, record_ids.colldect {|record_id| deletion_sdf(record_id) }
+        CloudSearch.post_sdf_list doc_endpoint, record_ids.collect {|record_id| deletion_sdf(record_id) }
       end
     end
 
